@@ -5,10 +5,9 @@ const gettingSoultuions= require('../Chegg')
 let display
 let soal;
 router.post('/',async(req,res)=>{
-    const question = await req.body
-    let answers=await gettingSoultuions(question)
-    console.log(answers)
-    res.send({answers})
+    const question = await req.body.question
+    let answers= await gettingSoultuions(question)
+    res.send(answers)
 })
 
 

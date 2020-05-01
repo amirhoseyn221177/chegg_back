@@ -1,11 +1,11 @@
 const puppeteer= require('puppeteer-extra');
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 const cheerio= require('cheerio');
-const clipboardy= require('clipboardy');
+// const clipboardy= require('clipboardy');
 const {email,password}=require('./Auth');
-const poll=require('promise-poller').default;
-const request= require('request-promise-native')
-const delay = require('delay')
+// const poll=require('promise-poller').default;
+// const request= require('request-promise-native')
+// const delay = require('delay')
 // const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 
@@ -23,13 +23,12 @@ var gettingSoultuions=async(question)=>{
       )
     //   puppeteer.use(StealthPlugin())
     try{
-      const browser= await puppeteer.launch({headless:false, defaultViewport: {
-        width: 2000,
-        height: 1000,
-        isLandscape: false },args:['--start-fullscreen']})
+      const browser= await puppeteer.launch({headless:false})
   
       const page= await browser.newPage()
-      await page.goto('https://www.chegg.com/auth?action=login',{waitUntil:'domcontentloaded'})
+      await page.goto('https://www.chegg.com/auth?action=login',{waitUntil:'domcontentloaded', defaultviewport:{
+        width:1500
+      }})
       await page.waitFor(1000)
       let html=await page.content()
       let $ = cheerio.load(html)
@@ -74,18 +73,19 @@ var gettingSoultuions=async(question)=>{
       }
   
       let seenCaptcha=false
-      console.log('we are here')
+      console.log('we are here 74')
       await page.waitFor(5000)
        html=await page.content()
        $ = cheerio.load(html)
        iscap= $('h1')
       if($(iscap).text()==='Please verify you are a human'){
+        console.log('we are here 80')
         await page.solveRecaptchas()
-        await page.waitFor(2000)
+        await page.waitFor(1000)
         seenCaptcha=true
   
       }
-      console.log('we are here 2')
+ 
      
        await page.waitForSelector('input[id="chegg-searchbox-input"]')
        await page.waitFor(1000)
@@ -97,7 +97,7 @@ var gettingSoultuions=async(question)=>{
          await page.solveRecaptchas()
        }
       
-      await page.type('input[id="chegg-searchbox-input"]','Question: (1 Point) X Is Uniformly Distributed Over The Interval [-1,1] ')
+      await page.type('input[id="chegg-searchbox-input"]', question)
       console.log('we are here 3')
       // await page.waitFor(3000)
        html=await page.content()
@@ -119,30 +119,36 @@ var gettingSoultuions=async(question)=>{
       html=await page.content()
       $= cheerio.load(html)
      
-      let listOfImages=$('li').find('div:nth-child(2)>div:nth-child(2)>div>p')
-      let images=['its for image src']
+      let listOfImages=$('li').find('div:nth-child(2)>div:nth-child(2)>div>p>img')
+      let images=[]
       listOfImages.map((i,e)=>{
         console.log('fuck this')
-        let url=$(e).find('img').attr('src')
+        let url=$(e).attr('src')
         images.push(url)
-        console.log(url)
       })
-      let setOftext=['its for embbeded texts']
+      let setOftext=[]
       let textanswers= $('li').find('div:nth-child(2)>div:nth-child(2)>div')
-      textanswers.map((i,e)=>{
+      let rawDoc=textanswers.html()
+      textanswers.each((i,e)=>{
         let text=$(e)
         setOftext.push($(text).text())
-        console.log($(text).text())
       })
-  
+      setOftext.splice(setOftext.length-1,1)
+
       // console.log(kir)
+      for(let i=0;i<images.length;i++){
+        if(images[i]===undefined|| images[i]===null){
+          images.splice(i,1)
+        }
+      }
   
       console.log(images)
       console.log(setOftext)
       let finalAnswers={}
+      finalAnswers.rawDoc=rawDoc
       finalAnswers.images=images
       finalAnswers.texts=setOftext
-
+      return finalAnswers
     }catch(e){
       console.log(e)
       return 0
@@ -152,7 +158,6 @@ var gettingSoultuions=async(question)=>{
    
 }
 
-gettingSoultuions('sex')
 
 // async function initiateCaptchaRequest(url) {
 //     const formData = {
