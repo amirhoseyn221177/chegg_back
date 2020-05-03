@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyparser=require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var verifyToken= require('./routes/verifyToken')
 var Question= require('./routes/Question');
 var SignIn= require('./routes/SignIn')
 var cors = require('cors');
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/question',Question);
 app.use('/signin',SignIn)
+app.use('/verifyToken',verifyToken)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

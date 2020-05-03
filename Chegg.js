@@ -3,26 +3,23 @@ const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 const cheerio= require('cheerio');
 // const clipboardy= require('clipboardy');
 const {email,password}=require('./Auth');
+const apikey= require('./2captchakey')
 // const poll=require('promise-poller').default;
 // const request= require('request-promise-native')
 // const delay = require('delay')
 // const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 
-let config={
-    sitekey:'6Lcj-R8TAAAAABs3FrRPuQhLMbp5QrHsHufzLf7b',
-    apiKey:'6898fee97c7b15ee9694f38264060c10',
-}
+
 
 var gettingSoultuions=async(question)=>{
     puppeteer.use(
         RecaptchaPlugin({
-          provider: { id: '2captcha', token: '6898fee97c7b15ee9694f38264060c10' },
+          provider: { id: '2captcha', token: apikey },
           visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
         })
       )
     //   puppeteer.use(StealthPlugin())
-    try{
       const browser= await puppeteer.launch({headless:false})
   
       const page= await browser.newPage()
@@ -144,15 +141,13 @@ var gettingSoultuions=async(question)=>{
   
       console.log(images)
       console.log(setOftext)
+      console.log(rawDoc)
       let finalAnswers={}
       finalAnswers.rawDoc=rawDoc
       finalAnswers.images=images
       finalAnswers.texts=setOftext
       return finalAnswers
-    }catch(e){
-      console.log(e)
-      return 0
-    }
+    
    
    
    
@@ -195,7 +190,6 @@ var gettingSoultuions=async(question)=>{
   
 //   const timeout = millis => new Promise(resolve => setTimeout(resolve, millis))
 
-  // gettingSoultuions()
 
 
   module.exports=gettingSoultuions
