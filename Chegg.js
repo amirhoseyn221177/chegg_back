@@ -8,7 +8,7 @@ const apikey= require('./2captchakey')
 // const request= require('request-promise-native')
 // const delay = require('delay')
 // const StealthPlugin = require('puppeteer-extra-plugin-stealth')
-
+const proxy= require('puppeteer-page-proxy')
 
 
 
@@ -23,6 +23,7 @@ var gettingSoultuions=async(question)=>{
       const browser= await puppeteer.launch({headless:false})
   
       const page= await browser.newPage()
+      
       await page.goto('https://www.chegg.com/auth?action=login',{waitUntil:'domcontentloaded', defaultviewport:{
         width:1500
       }})

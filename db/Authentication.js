@@ -3,8 +3,7 @@ const pool=require('../db/Pool')
 
 const SALT= 8
 const verifyuser = async (username, password) => {
-  
-    // get hashed password from DB
+        // get hashed password from DB
     const queryResult = await pool.query(`
             SELECT *
             FROM visitor
