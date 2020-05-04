@@ -1,1 +1,5 @@
 node_modules
+jwtkey.js
+2captchakey.js
+db/Pool.js
+db/Authentication.js
