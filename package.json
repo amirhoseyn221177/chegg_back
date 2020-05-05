@@ -34,12 +34,5 @@
     "puppeteer-page-proxy": "^1.2.3",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8"
-  },
-  "main": "app.js",
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "constantinople": "^6.14.4"
   }
 }
