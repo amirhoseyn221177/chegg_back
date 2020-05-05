@@ -9,6 +9,7 @@ const apikey= require('./2captchakey')
 // const delay = require('delay')
 // const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const proxy= require('puppeteer-page-proxy')
+const chromium = require('chrome-aws-lambda');
 
 
 
@@ -20,7 +21,10 @@ var gettingSoultuions=async(question)=>{
         })
       )
     //   puppeteer.use(StealthPlugin())
-      const browser= await puppeteer.launch({headless:true,arg:['--no-sandbox', '--disable-setuid-sandbox','--disable-extensions'] })
+      const browser= await puppeteer.launch({headless:true,arg:chromium.args,
+        defaultviewport:chromium.defaultViewport, 
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless, })
   
       const page= await browser.newPage()
       
@@ -193,7 +197,6 @@ var gettingSoultuions=async(question)=>{
 //   }
   
 //   const timeout = millis => new Promise(resolve => setTimeout(resolve, millis))
-
 
 
   module.exports=gettingSoultuions
