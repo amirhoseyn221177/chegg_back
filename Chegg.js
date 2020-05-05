@@ -20,7 +20,7 @@ var gettingSoultuions=async(question)=>{
         })
       )
     //   puppeteer.use(StealthPlugin())
-      const browser= await puppeteer.launch({headless:true})
+      const browser= await puppeteer.launch({headless:true,arg:['--no-sandbox', '--disable-setuid-sandbox','--disable-extensions'] })
   
       const page= await browser.newPage()
       
