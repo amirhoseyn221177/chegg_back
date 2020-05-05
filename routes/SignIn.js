@@ -6,6 +6,7 @@ const router= express.Router()
 
 router.post('/login',async(req,res)=>{
     try{
+        console.log(req.body)
         const {username,password}= await req.body
         await verifyuser(username,password)
         let token =  jwt.sign({username},jwtkey,{
