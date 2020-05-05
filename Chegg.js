@@ -20,7 +20,7 @@ var gettingSoultuions=async(question)=>{
         })
       )
     //   puppeteer.use(StealthPlugin())
-      const browser= await puppeteer.launch({headless:false})
+      const browser= await puppeteer.launch({headless:true})
   
       const page= await browser.newPage()
       
@@ -139,6 +139,9 @@ var gettingSoultuions=async(question)=>{
           images.splice(i,1)
         }
       }
+
+      await page.waitFor(1000)
+      await page.close()
   
       console.log(images)
       console.log(setOftext)
