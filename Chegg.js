@@ -36,7 +36,7 @@ var gettingSoultuions=async(question)=>{
       let $ = cheerio.load(html)
       let iscap= $('h1')
       if($(iscap).text()==='Please verify you are a human'){
-        console.log('captcha alert')
+        console.log('captcha alert/')
         await page.solveRecaptchas() 
         await page.waitFor(1000)
         await page.waitForSelector('input[id="emailForSignIn"]')
