@@ -13,11 +13,11 @@ var cors = require('cors');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'build')));
-app.get('/', function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 // app.get('*', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//   res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 // });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
