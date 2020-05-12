@@ -26,7 +26,10 @@ router.post('/login',async(req,res)=>{
 router.post('/signup',async(req,res)=>{
     try{
         const {username,password,ip}= await req.body
-        await addUser(username,password,ip)    
+        const city= await ip.city
+        const IPV4= await ip.IPv4
+        let whole=`${city}, ${IPV4}`
+        await addUser(username,password,whole)    
         let token =  jwt.sign({username},jwtkey,{
             algorithm: 'HS256',
             expiresIn:7200
