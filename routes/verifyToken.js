@@ -5,10 +5,10 @@ const jwtkey=require('../jwtkey')
 
 router.get('/',async(req,res)=>{
     try{
-        console.log(7)
        let response= await verifyToken(req,res)
        res.send(response)
     }catch (e){
+        console.log(12)
         console.log(e)
         res.status(404).send('UNAUTHORIZED')
     }
