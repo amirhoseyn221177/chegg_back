@@ -26,6 +26,7 @@ router.post('/login',async(req,res)=>{
 router.post('/signup',async(req,res)=>{
     try{
         const {username,password,ip}= await req.body
+        console.log(ip)
         const city= await ip.city
         const IPV4= await ip.IPv4
         let whole=`${city}, ${IPV4}`
